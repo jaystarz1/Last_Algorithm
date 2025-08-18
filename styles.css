@@ -282,12 +282,23 @@ body.no-animations .cta-button {
     position: relative;
     margin: 2rem auto;
     max-width: 300px;
-    min-height: 60px; /* Add minimum height */
-    min-width: 200px; /* Add minimum width */
+    min-height: 60px;
+    min-width: 200px;
     opacity: 0;
     animation: fadeInRotate 1s ease-out 1s forwards;
-    white-space: pre-wrap; /* Preserve formatting */
-    word-break: break-word; /* Prevent overflow */
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Show content immediately if no JS */
+.sticky-note:not(:empty) {
+    opacity: 1;
+}
+
+/* Ensure sticky notes are visible when animations are off */
+body.no-animations .sticky-note {
+    opacity: 1 !important;
+    animation: none !important;
 }
 
 .sticky-note::before {

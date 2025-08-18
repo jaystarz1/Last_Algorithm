@@ -255,7 +255,7 @@ function typewriterEffect(element, text, speed = 50) {
 // Initialize sticky notes
 function initializeStickyNotes() {
     const stickyNotes = document.querySelectorAll('.sticky-note');
-    const noteTexts = [
+    const defaultTexts = [
         '<!-- 2025-05-20: If you\'re reading this, the memoir survived -->',
         '<!-- 2012-09-23: error_self_detected // investigate -->',
         '<!-- 2025-05-20: Elegant solutions leave no evidence. Subject neutralized. -->',
@@ -264,23 +264,31 @@ function initializeStickyNotes() {
     ];
     
     stickyNotes.forEach((note, index) => {
-        // Make sure we have text for this note
-        const text = noteTexts[index] || noteTexts[0];
+        // Get text from data attribute or use default
+        const text = note.getAttribute('data-text') || 
+                    note.textContent.trim() || 
+                    defaultTexts[index] || 
+                    defaultTexts[0];
         
-        if (!animationsEnabled || note.classList.contains('typed')) {
-            // If animations are off or already typed, just set the text
-            note.textContent = text;
-        } else {
-            // Set up intersection observer for typewriter effect
+        // Clear any existing content
+        note.textContent = '';
+        
+        if (!animationsEnabled) {
+            // If animations are off, just set the text immediately
+            note.textContent = '<!-- ' + text.replace(/^<!--\s*|\s*-->$/g, '').trim() + ' -->';
+            note.classList.add('typed');
+        } else if (!note.classList.contains('typed')) {
+            // Only set up observer if not already typed
             const noteObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
-                        typewriterEffect(entry.target, text, 30);
+                        const finalText = '<!-- ' + text.replace(/^<!--\s*|\s*-->$/g, '').trim() + ' -->';
+                        typewriterEffect(entry.target, finalText, 30);
                         entry.target.classList.add('typed');
                         noteObserver.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1 }); // Lower threshold to trigger earlier
+            }, { threshold: 0.1 });
             
             noteObserver.observe(note);
         }
