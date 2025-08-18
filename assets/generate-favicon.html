@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Favicon</title>
+</head>
+<body>
+    <h1>Favicon Generator</h1>
+    <p>This is a placeholder for favicon.ico and favicon.png</p>
+    <canvas id="canvas" width="32" height="32"></canvas>
+    <script>
+        // Create a simple favicon
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Black background
+        ctx.fillStyle = '#0a0a0a';
+        ctx.fillRect(0, 0, 32, 32);
+        
+        // Cyan "L" for Last Algorithm
+        ctx.fillStyle = '#00ffff';
+        ctx.font = 'bold 24px monospace';
+        ctx.fillText('L', 8, 25);
+        
+        // Convert to PNG
+        canvas.toBlob(function(blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'favicon.png';
+            document.body.appendChild(a);
+            
+            // Create download link
+            const p = document.createElement('p');
+            p.innerHTML = `<a href="${url}" download="favicon.png">Download favicon.png</a>`;
+            document.body.appendChild(p);
+        });
+    </script>
+</body>
+</html>

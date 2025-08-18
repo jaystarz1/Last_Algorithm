@@ -1,0 +1,7 @@
+# Favicon Placeholder
+
+This is a placeholder file for favicon.ico
+
+The actual favicon should be generated using an icon generator tool.
+
+For now, the favicon references have been removed from index.html to prevent 404 errors that were causing Chrome to show "Not Secure" warnings.
