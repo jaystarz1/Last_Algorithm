@@ -308,7 +308,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // Glitch effect on hover for the main title
 const glitchText = document.querySelector('.glitch-text');
-let glitchInterval;
+// glitchInterval is already declared at the top of the file
 
 glitchText.addEventListener('mouseenter', () => {
     glitchText.style.animation = 'none';
