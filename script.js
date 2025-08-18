@@ -309,10 +309,13 @@ function runSecurityDiagnostics() {
     const isSecure = window.location.protocol === 'https:';
     console.log(`🔒 Security Check: Running on ${window.location.protocol} - Secure: ${isSecure}`);
     
+    // Initialize insecureResources outside the if block
+    let insecureResources = [];
+    
     // Monitor for mixed content
     if (window.performance && window.performance.getEntriesByType) {
         const resources = window.performance.getEntriesByType('resource');
-        const insecureResources = resources.filter(resource => {
+        insecureResources = resources.filter(resource => {
             return resource.name.startsWith('http://') && !resource.name.startsWith('http://localhost');
         });
         
@@ -324,6 +327,13 @@ function runSecurityDiagnostics() {
         } else {
             console.log('✅ No mixed content detected in loaded resources');
         }
+        
+        // Log all resources for debugging
+        console.log('📊 All loaded resources:');
+        resources.forEach(resource => {
+            const protocol = resource.name.split(':')[0];
+            console.log(`  ${protocol === 'https' ? '🔒' : protocol === 'http' ? '⚠️' : '📄'} ${resource.name.substring(0, 80)}... (${resource.initiatorType})`);
+        });
     }
     
     // Check all links on the page
@@ -378,6 +388,23 @@ function runSecurityDiagnostics() {
         });
     }
     
+    // Check favicon links
+    const faviconLinks = document.querySelectorAll('link[rel*="icon"]');
+    console.log('🎨 Favicon links found:');
+    faviconLinks.forEach(link => {
+        const protocol = link.href.split(':')[0];
+        console.log(`  ${protocol === 'https' ? '🔒' : '⚠️'} ${link.rel}: ${link.href}`);
+    });
+    
+    // Check meta tags for potential issues
+    const metaTags = document.querySelectorAll('meta[content*="http://"]');
+    if (metaTags.length > 0) {
+        console.warn('⚠️ Meta tags with HTTP content:');
+        metaTags.forEach(tag => {
+            console.warn(`  - ${tag.getAttribute('name') || tag.getAttribute('property')}: ${tag.content}`);
+        });
+    }
+    
     // Report overall status
     const totalIssues = httpLinks.length + httpImages.length + httpScripts.length + httpStylesheets.length;
     if (totalIssues === 0 && insecureResources.length === 0) {
@@ -385,6 +412,13 @@ function runSecurityDiagnostics() {
     } else {
         console.warn(`⚠️ Security Diagnostics Complete: Found ${totalIssues} potential issues`);
     }
+    
+    // Additional Chrome-specific checks
+    console.log('🔍 Chrome Security Checklist:');
+    console.log(`  Protocol: ${window.location.protocol}`);
+    console.log(`  Hostname: ${window.location.hostname}`);
+    console.log(`  Port: ${window.location.port || 'default'}`);
+    console.log(`  Secure Context: ${window.isSecureContext}`);
 }
 
 // Initialize on DOM content loaded
