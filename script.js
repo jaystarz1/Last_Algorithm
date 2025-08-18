@@ -136,7 +136,7 @@ function updateAmazonLinks() {
         const countryCode = domain.replace('amazon.', '');
         const country = countryNames[countryCode];
         if (country) {
-            locationText = `📍 Shopping from ${country}? Links adjusted to your local Amazon store`;
+            locationText = `📍 Links automatically adjusted to your local Amazon store`;
         }
         
         locationNote.querySelector('p').textContent = locationText;
