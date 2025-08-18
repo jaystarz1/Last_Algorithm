@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Favicon</title>
+</head>
+<body>
+    <h1>Favicon Generator</h1>
+    <p>Use this HTML file to generate a PNG favicon:</p>
+    
+    <canvas id="canvas" width="32" height="32" style="border: 1px solid #333; image-rendering: pixelated; width: 128px; height: 128px;"></canvas>
+    
+    <br><br>
+    <button onclick="downloadPNG()">Download PNG Favicon</button>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Background
+        ctx.fillStyle = '#0a0a0a';
+        ctx.fillRect(0, 0, 32, 32);
+        
+        // Main text "LA"
+        ctx.font = 'bold 14px monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // Glitch effect - magenta layer
+        ctx.fillStyle = 'rgba(255, 0, 255, 0.3)';
+        ctx.fillText('LA', 15.5, 16.5);
+        
+        // Glitch effect - cyan layer
+        ctx.fillStyle = 'rgba(0, 255, 255, 0.5)';
+        ctx.fillText('LA', 16.5, 17.5);
+        
+        // Main text
+        ctx.fillStyle = '#00ffff';
+        ctx.fillText('LA', 16, 17);
+        
+        // Digital lines
+        ctx.fillStyle = 'rgba(0, 255, 255, 0.3)';
+        ctx.fillRect(0, 10, 32, 1);
+        
+        ctx.fillStyle = 'rgba(255, 0, 255, 0.3)';
+        ctx.fillRect(0, 20, 32, 1);
+        
+        // Corner brackets
+        ctx.strokeStyle = 'rgba(0, 255, 255, 0.7)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(4, 8);
+        ctx.lineTo(4, 4);
+        ctx.lineTo(8, 4);
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.moveTo(24, 4);
+        ctx.lineTo(28, 4);
+        ctx.lineTo(28, 8);
+        ctx.stroke();
+        
+        ctx.strokeStyle = 'rgba(255, 0, 255, 0.7)';
+        ctx.beginPath();
+        ctx.moveTo(8, 28);
+        ctx.lineTo(4, 28);
+        ctx.lineTo(4, 24);
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.moveTo(28, 24);
+        ctx.lineTo(28, 28);
+        ctx.lineTo(24, 28);
+        ctx.stroke();
+        
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'favicon.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+    
+    <p>Instructions:</p>
+    <ol>
+        <li>Open this file in a browser</li>
+        <li>Click "Download PNG Favicon"</li>
+        <li>Save the favicon.png to the assets folder</li>
+        <li>Delete this generator file when done</li>
+    </ol>
+</body>
+</html>
