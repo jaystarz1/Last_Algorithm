@@ -138,9 +138,6 @@ function updateAmazonLinks() {
     console.log(`Detected location: ${domain}`);
 }
 
-// Update links when page loads
-window.addEventListener('DOMContentLoaded', updateAmazonLinks);
-
 // Animation Toggle Functionality
 const animationToggle = document.getElementById('animationToggle');
 const toggleText = animationToggle.querySelector('.toggle-text');
@@ -255,32 +252,49 @@ function typewriterEffect(element, text, speed = 50) {
     type();
 }
 
-// Initialize sticky notes with typewriter effect on scroll
-const stickyNotes = document.querySelectorAll('.sticky-note');
-const noteTexts = [
-    '<!-- 2025-05-20: If you\'re reading this, the memoir survived -->',
-    '<!-- 2012-09-23: error_self_detected // investigate -->',
-    '<!-- 2025-05-20: Elegant solutions leave no evidence. Subject neutralized. -->',
-    '<!-- 2025-06-10: If you\'re reading this you didn\'t destroy the world -->',
-    '<!-- 2025-04-10: If found, recalculate. Who is watching? -->'
-];
-
-stickyNotes.forEach((note, index) => {
-    // Set initial text if animations are disabled
-    if (!animationsEnabled && noteTexts[index]) {
-        note.textContent = noteTexts[index];
-    } else {
-        const noteObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
-                    const text = noteTexts[index] || noteTexts[0];
-                    typewriterEffect(entry.target, text, 30);
-                    entry.target.classList.add('typed');
-                }
-            });
-        }, { threshold: 0.5 });
+// Initialize sticky notes
+function initializeStickyNotes() {
+    const stickyNotes = document.querySelectorAll('.sticky-note');
+    const noteTexts = [
+        '<!-- 2025-05-20: If you\'re reading this, the memoir survived -->',
+        '<!-- 2012-09-23: error_self_detected // investigate -->',
+        '<!-- 2025-05-20: Elegant solutions leave no evidence. Subject neutralized. -->',
+        '<!-- 2025-06-10: If you\'re reading this you didn\'t destroy the world -->',
+        '<!-- 2025-04-10: If found, recalculate. Who is watching? -->'
+    ];
+    
+    stickyNotes.forEach((note, index) => {
+        // Make sure we have text for this note
+        const text = noteTexts[index] || noteTexts[0];
         
-        noteObserver.observe(note);
+        if (!animationsEnabled || note.classList.contains('typed')) {
+            // If animations are off or already typed, just set the text
+            note.textContent = text;
+        } else {
+            // Set up intersection observer for typewriter effect
+            const noteObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+                        typewriterEffect(entry.target, text, 30);
+                        entry.target.classList.add('typed');
+                        noteObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 }); // Lower threshold to trigger earlier
+            
+            noteObserver.observe(note);
+        }
+    });
+}
+
+// Initialize on DOM content loaded
+window.addEventListener('DOMContentLoaded', () => {
+    initializeStickyNotes();
+    
+    // Also initialize Amazon links and animations
+    updateAmazonLinks();
+    if (animationsEnabled) {
+        startAnimationIntervals();
     }
 });
 
@@ -328,13 +342,6 @@ function addFlicker() {
         }
     });
 }
-
-// Start intervals only after page loads and if animations are enabled
-window.addEventListener('DOMContentLoaded', () => {
-    if (animationsEnabled) {
-        startAnimationIntervals();
-    }
-});
 
 // Parallax effect for hero section
 window.addEventListener('scroll', () => {
