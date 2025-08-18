@@ -1,0 +1,72 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Strict Transport Security - Force HTTPS for 1 year
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    
+    # Prevent clickjacking
+    X-Frame-Options = "SAMEORIGIN"
+    
+    # Prevent MIME type sniffing
+    X-Content-Type-Options = "nosniff"
+    
+    # XSS Protection (for older browsers)
+    X-XSS-Protection = "1; mode=block"
+    
+    # Referrer Policy
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    
+    # Permissions Policy (formerly Feature Policy)
+    Permissions-Policy = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+    
+    # Content Security Policy - Comprehensive
+    Content-Security-Policy = """
+      default-src 'self' https:;
+      script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com data:;
+      img-src 'self' https: data:;
+      connect-src 'self' https:;
+      frame-ancestors 'none';
+      base-uri 'self';
+      form-action 'self' https://www.amazon.com https://www.amazon.ca https://www.amazon.co.uk https://www.amazon.de https://www.amazon.fr https://www.amazon.it https://www.amazon.es https://www.amazon.co.jp https://www.amazon.com.au https://www.amazon.in https://www.amazon.com.br https://www.amazon.com.mx;
+      upgrade-insecure-requests;
+    """
+
+# Redirect HTTP to HTTPS
+[[redirects]]
+  from = "http://lastalgorithm.thechatbotgenius.com/*"
+  to = "https://lastalgorithm.thechatbotgenius.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.lastalgorithm.thechatbotgenius.com/*"
+  to = "https://lastalgorithm.thechatbotgenius.com/:splat"
+  status = 301
+  force = true
+
+# Build settings
+[build]
+  publish = "."
+
+# Headers for specific file types
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

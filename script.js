@@ -81,24 +81,32 @@ function updateAmazonLinks() {
     const ebookASIN = 'B0FB46WG8R'; // eBook
     const audioASIN = 'B0FB62R7JC'; // Audiobook (US only)
     
+    // Ensure we're using HTTPS
+    const protocol = window.location.protocol === 'https:' ? 'https:' : 'https:';
+    
     // Update all Amazon links
     const amazonLinks = document.querySelectorAll('.cta-button');
     
     amazonLinks.forEach(link => {
-        const buttonText = link.querySelector('.button-text').textContent;
+        const buttonText = link.querySelector('.button-text');
+        if (!buttonText) return; // Skip if button text not found
         
-        if (buttonText.includes('Paperback')) {
-            link.href = `https://www.${domain}/dp/${bookASIN}`;
-        } else if (buttonText.includes('eBook')) {
-            link.href = `https://www.${domain}/dp/${ebookASIN}`;
-        } else if (buttonText.includes('Audiobook')) {
+        const text = buttonText.textContent;
+        
+        if (text.includes('Paperback')) {
+            link.href = `${protocol}//www.${domain}/dp/${bookASIN}`;
+        } else if (text.includes('eBook')) {
+            link.href = `${protocol}//www.${domain}/dp/${ebookASIN}`;
+        } else if (text.includes('Audiobook')) {
             // Audiobook only available on .com
-            link.href = `https://www.amazon.com/dp/${audioASIN}`;
+            link.href = `${protocol}//www.amazon.com/dp/${audioASIN}`;
             
             // Add note if user is not in US
             if (domain !== 'amazon.com') {
                 const priceSpan = link.querySelector('.button-price');
-                priceSpan.textContent = 'Available on Amazon.com (US)';
+                if (priceSpan) {
+                    priceSpan.textContent = 'Available on Amazon.com (US)';
+                }
             }
         }
     });
@@ -295,6 +303,90 @@ function initializeStickyNotes() {
     });
 }
 
+// Security Diagnostics - Detect mixed content and insecure requests
+function runSecurityDiagnostics() {
+    // Check current protocol
+    const isSecure = window.location.protocol === 'https:';
+    console.log(`🔒 Security Check: Running on ${window.location.protocol} - Secure: ${isSecure}`);
+    
+    // Monitor for mixed content
+    if (window.performance && window.performance.getEntriesByType) {
+        const resources = window.performance.getEntriesByType('resource');
+        const insecureResources = resources.filter(resource => {
+            return resource.name.startsWith('http://') && !resource.name.startsWith('http://localhost');
+        });
+        
+        if (insecureResources.length > 0) {
+            console.warn('⚠️ Mixed Content Detected - Insecure resources found:');
+            insecureResources.forEach(resource => {
+                console.warn(`  - ${resource.name} (${resource.initiatorType})`);
+            });
+        } else {
+            console.log('✅ No mixed content detected in loaded resources');
+        }
+    }
+    
+    // Check all links on the page
+    const allLinks = document.querySelectorAll('a[href]');
+    const httpLinks = Array.from(allLinks).filter(link => {
+        return link.href.startsWith('http://') && !link.href.includes('localhost');
+    });
+    
+    if (httpLinks.length > 0) {
+        console.warn('⚠️ HTTP links found on page:');
+        httpLinks.forEach(link => {
+            console.warn(`  - ${link.href}`);
+        });
+    }
+    
+    // Check for images
+    const allImages = document.querySelectorAll('img[src]');
+    const httpImages = Array.from(allImages).filter(img => {
+        return img.src.startsWith('http://') && !img.src.includes('localhost');
+    });
+    
+    if (httpImages.length > 0) {
+        console.warn('⚠️ HTTP images found:');
+        httpImages.forEach(img => {
+            console.warn(`  - ${img.src}`);
+        });
+    }
+    
+    // Check for scripts
+    const allScripts = document.querySelectorAll('script[src]');
+    const httpScripts = Array.from(allScripts).filter(script => {
+        return script.src.startsWith('http://') && !script.src.includes('localhost');
+    });
+    
+    if (httpScripts.length > 0) {
+        console.warn('⚠️ HTTP scripts found:');
+        httpScripts.forEach(script => {
+            console.warn(`  - ${script.src}`);
+        });
+    }
+    
+    // Check for stylesheets
+    const allStylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+    const httpStylesheets = Array.from(allStylesheets).filter(link => {
+        return link.href.startsWith('http://') && !link.href.includes('localhost');
+    });
+    
+    if (httpStylesheets.length > 0) {
+        console.warn('⚠️ HTTP stylesheets found:');
+        httpStylesheets.forEach(link => {
+            console.warn(`  - ${link.href}`);
+        });
+    }
+    
+    // Report overall status
+    const totalIssues = httpLinks.length + httpImages.length + httpScripts.length + httpStylesheets.length;
+    if (totalIssues === 0 && insecureResources.length === 0) {
+        console.log('✅ Security Diagnostics Complete: No mixed content or HTTP resources detected');
+    } else {
+        console.warn(`⚠️ Security Diagnostics Complete: Found ${totalIssues} potential issues`);
+    }
+}
+
 // Initialize on DOM content loaded
 window.addEventListener('DOMContentLoaded', () => {
     initializeStickyNotes();
@@ -304,6 +396,9 @@ window.addEventListener('DOMContentLoaded', () => {
     if (animationsEnabled) {
         startAnimationIntervals();
     }
+    
+    // Run security diagnostics
+    runSecurityDiagnostics();
 });
 
 // Glitch effect on hover for the main title
@@ -464,21 +559,6 @@ timelineItems.forEach(item => {
     item.style.transition = 'all 0.6s ease-out';
     timelineObserver.observe(item);
 });
-
-// Add random flicker to certain elements
-function addFlicker() {
-    if (!animationsEnabled) return;
-    
-    const flickerElements = document.querySelectorAll('.probability-note, .notes-caption');
-    flickerElements.forEach(el => {
-        if (Math.random() > 0.98) {
-            el.style.opacity = '0.5';
-            setTimeout(() => {
-                el.style.opacity = '1';
-            }, 50);
-        }
-    });
-}
 
 // Mobile menu toggle (if needed in future)
 const mobileMenuTrigger = document.querySelector('.mobile-menu-trigger');
