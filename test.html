@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>HTTPS Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #0a0a0a;
+            color: #00ffff;
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        p {
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+        .status {
+            margin-top: 2rem;
+            padding: 1rem;
+            border: 2px solid #00ffff;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HTTPS Test Page</h1>
+        <p>If you see a padlock in your browser, HTTPS is working correctly.</p>
+        <div class="status">
+            <p>Protocol: <span id="protocol"></span></p>
+            <p>Secure: <span id="secure"></span></p>
+        </div>
+    </div>
+    <script>
+        document.getElementById('protocol').textContent = window.location.protocol;
+        document.getElementById('secure').textContent = window.location.protocol === 'https:' ? 'Yes ✅' : 'No ❌';
+    </script>
+</body>
+</html>
