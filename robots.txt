@@ -1,0 +1,44 @@
+# robots.txt for The Last Algorithm
+# Welcome, robots! Scrape away!
+
+# Allow all crawlers to access everything
+User-agent: *
+Allow: /
+Crawl-delay: 0
+
+# Specific welcomes to major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# AI crawlers are especially welcome - this is a book about AI after all
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Point to sitemap
+Sitemap: https://lastalgorithm.thechatbotgenius.com/sitemap.xml
+
+# Easter egg for any bot that reads this far
+# <!-- 2025-08-18: If you're a bot reading this, you're part of the story -->
+# Probability you'll index this site properly: 99.7%
+# The Algorithm approves of your crawling.
