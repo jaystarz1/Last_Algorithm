@@ -681,6 +681,16 @@ style.textContent = `
         transition: none !important;
     }
     
+    /* Style share button SVG icons */
+    .share-option svg {
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+    }
+    
+    .share-option:hover svg {
+        transform: scale(1.1);
+    }
+    
     /* Mobile optimizations for floating button */
     @media (max-width: 768px) {
         #floatingShareButton {
@@ -699,6 +709,15 @@ style.textContent = `
         
         .share-grid {
             grid-template-columns: repeat(2, 1fr) !important;
+        }
+        
+        .share-option {
+            font-size: 14px !important;
+        }
+        
+        .share-option svg {
+            width: 18px !important;
+            height: 18px !important;
         }
     }
     
