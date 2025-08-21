@@ -618,6 +618,17 @@ style.textContent = `
         }
     }
     
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 4px 20px rgba(74, 30, 140, 0.4);
+        }
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(0, 255, 255, 0.5);
+        }
+    }
+    
     section {
         opacity: 0;
         transform: translateY(30px);
@@ -641,6 +652,37 @@ style.textContent = `
     body.no-animations {
         opacity: 1 !important;
         transition: none !important;
+    }
+    
+    /* Mobile optimizations for floating button */
+    @media (max-width: 768px) {
+        #floatingShareButton {
+            bottom: 20px !important;
+            right: 20px !important;
+            width: 50px !important;
+            height: 50px !important;
+            font-size: 20px !important;
+        }
+        
+        .share-menu-content {
+            width: 95% !important;
+            max-height: 90vh !important;
+            padding: 20px !important;
+        }
+        
+        .share-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        #floatingShareButton {
+            bottom: 15px !important;
+            right: 15px !important;
+            width: 45px !important;
+            height: 45px !important;
+            font-size: 18px !important;
+        }
     }
 `;
 document.head.appendChild(style);
@@ -705,12 +747,23 @@ const shareData = {
     image: 'https://lastalgorithm.thechatbotgenius.com/assets/og-image.jpg'
 };
 
-// Show/Hide Share Menu
-document.getElementById('shareButton').addEventListener('click', () => {
+// Show/Hide Share Menu - Handle both floating and regular button
+const floatingShareBtn = document.getElementById('floatingShareButton');
+const regularShareBtn = document.getElementById('shareButton');
+
+function openShareMenu() {
     const menu = document.getElementById('shareMenu');
     menu.style.display = 'flex';
     document.body.style.overflow = 'hidden'; // Prevent background scrolling
-});
+}
+
+if (floatingShareBtn) {
+    floatingShareBtn.addEventListener('click', openShareMenu);
+}
+
+if (regularShareBtn) {
+    regularShareBtn.addEventListener('click', openShareMenu);
+}
 
 function closeShareMenu() {
     const menu = document.getElementById('shareMenu');
@@ -846,17 +899,29 @@ document.querySelectorAll('.share-option').forEach(button => {
     });
 });
 
-// Add hover effect to main share button
-const shareButton = document.getElementById('shareButton');
-if (shareButton) {
-    shareButton.addEventListener('mouseenter', function() {
-        this.style.transform = 'scale(1.05)';
-        this.style.boxShadow = '0 6px 20px rgba(74, 30, 140, 0.5)';
+// Add hover effect to floating share button
+if (floatingShareBtn) {
+    // Hover effects
+    floatingShareBtn.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.1) rotate(10deg)';
+        this.style.boxShadow = '0 6px 30px rgba(74, 30, 140, 0.6)';
+        this.querySelector('span').style.transform = 'rotate(-10deg)';
     });
     
-    shareButton.addEventListener('mouseleave', function() {
-        this.style.transform = 'scale(1)';
-        this.style.boxShadow = '0 4px 12px rgba(74, 30, 140, 0.3)';
+    floatingShareBtn.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1) rotate(0)';
+        this.style.boxShadow = '0 4px 20px rgba(74, 30, 140, 0.4)';
+        this.querySelector('span').style.transform = 'rotate(0)';
+    });
+    
+    // Pulse animation on scroll stop
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        floatingShareBtn.style.animation = 'none';
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            floatingShareBtn.style.animation = 'pulse 2s ease-in-out infinite';
+        }, 500);
     });
 }
 

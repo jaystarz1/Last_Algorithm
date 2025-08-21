@@ -577,23 +577,6 @@ Probability of s█rvival: ████████</pre>
                     <span class="button-price">Hear the ghost in the machine</span>
                 </a>
             </div>
-            <!-- Share Section -->
-            <div class="share-section" style="margin-top: 3rem; text-align: center;">
-                <button class="share-button" id="shareButton" style="
-                    background: linear-gradient(135deg, #4a1e8c, #00ffff);
-                    color: white;
-                    border: none;
-                    padding: 12px 32px;
-                    font-size: 16px;
-                    font-weight: 600;
-                    border-radius: 8px;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    box-shadow: 0 4px 12px rgba(74, 30, 140, 0.3);
-                ">
-                    <span style="margin-right: 8px;">📤</span> Share This Book
-                </button>
-            </div>
             <div class="probability-note">
                 <p>Probability you'll believe it's fiction: 99.7%<br>
                 Probability that matters: 0%</p>
@@ -919,6 +902,29 @@ Probability of s█rvival: ████████</pre>
             </div>
         </div>
     </footer>
+
+    <!-- Floating Share Button -->
+    <button id="floatingShareButton" aria-label="Share this page" style="
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #4a1e8c, #00ffff);
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(74, 30, 140, 0.4);
+        z-index: 9999;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    ">
+        <span style="transition: transform 0.3s ease;">📤</span>
+    </button>
 
     <script src="/script.js"></script>
 </body>
