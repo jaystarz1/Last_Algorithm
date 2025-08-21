@@ -1,3 +1,74 @@
+// Smooth Scrolling for Navigation Links
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle smooth scrolling for navigation links
+    const navLinks = document.querySelectorAll('.nav-link, .nav-logo');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                
+                const targetId = href === '#' ? 'body' : href;
+                const targetElement = targetId === 'body' ? document.body : document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const navHeight = document.querySelector('.glitch-nav').offsetHeight;
+                    const targetPosition = targetElement.offsetTop - navHeight - 20;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    });
+    
+    // Add scroll effect to navigation
+    let lastScroll = 0;
+    const nav = document.querySelector('.glitch-nav');
+    
+    window.addEventListener('scroll', function() {
+        const currentScroll = window.pageYOffset;
+        
+        if (currentScroll > 100) {
+            nav.style.background = 'linear-gradient(180deg, rgba(10, 10, 10, 1) 0%, rgba(10, 10, 10, 0.98) 100%)';
+            nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.8)';
+        } else {
+            nav.style.background = 'linear-gradient(180deg, rgba(10, 10, 10, 0.98) 0%, rgba(10, 10, 10, 0.9) 100%)';
+            nav.style.boxShadow = 'none';
+        }
+        
+        lastScroll = currentScroll;
+    });
+    
+    // Highlight active section in navigation
+    const sections = document.querySelectorAll('section[id]');
+    const navItems = document.querySelectorAll('.nav-link');
+    
+    window.addEventListener('scroll', function() {
+        let current = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionHeight = section.offsetHeight;
+            
+            if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === '#' + current) {
+                item.classList.add('active');
+            }
+        });
+    });
+});
+
 // Amazon Link Localization
 function getAmazonDomain() {
     // Get user's country from browser language or timezone
@@ -623,4 +694,179 @@ document.querySelectorAll('.cta-button').forEach(button => {
         console.log(`User clicked: ${format}`);
         // Add analytics tracking here if needed
     });
+});
+
+// Social Share Functionality
+const shareData = {
+    title: 'The Last Algorithm - AI-Written Thriller That Became Real',
+    text: 'A mind-bending thriller born from AI hallucination. When fiction becomes fact, who\'s really in control? Written by AI about an AI that destroyed a journalist\'s career.',
+    url: window.location.href,
+    description: 'Discover the AI-written techno-thriller born from ChatGPT\'s fake book scandal. 30,000 words in 3.5 days. Based on true events.',
+    image: 'https://lastalgorithm.thechatbotgenius.com/assets/og-image.jpg'
+};
+
+// Show/Hide Share Menu
+document.getElementById('shareButton').addEventListener('click', () => {
+    const menu = document.getElementById('shareMenu');
+    menu.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+});
+
+function closeShareMenu() {
+    const menu = document.getElementById('shareMenu');
+    menu.style.display = 'none';
+    document.body.style.overflow = ''; // Restore scrolling
+}
+
+// Close menu when clicking outside
+document.getElementById('shareMenu').addEventListener('click', (e) => {
+    if (e.target.id === 'shareMenu') {
+        closeShareMenu();
+    }
+});
+
+// Share Functions for All Platforms
+window.shareToFacebook = function() {
+    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}`;
+    window.open(url, '_blank', 'width=600,height=400');
+    closeShareMenu();
+};
+
+window.shareToTwitter = function() {
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.title)}&url=${encodeURIComponent(shareData.url)}`;
+    window.open(url, '_blank', 'width=600,height=400');
+    closeShareMenu();
+};
+
+window.shareToLinkedIn = function() {
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareData.url)}`;
+    window.open(url, '_blank', 'width=600,height=400');
+    closeShareMenu();
+};
+
+window.shareToReddit = function() {
+    const url = `https://www.reddit.com/submit?url=${encodeURIComponent(shareData.url)}&title=${encodeURIComponent(shareData.title)}`;
+    window.open(url, '_blank', 'width=600,height=700');
+    closeShareMenu();
+};
+
+window.shareToWhatsApp = function() {
+    const text = `${shareData.title} - ${shareData.url}`;
+    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+    closeShareMenu();
+};
+
+window.shareToTelegram = function() {
+    const url = `https://t.me/share/url?url=${encodeURIComponent(shareData.url)}&text=${encodeURIComponent(shareData.title)}`;
+    window.open(url, '_blank');
+    closeShareMenu();
+};
+
+window.shareToPinterest = function() {
+    const url = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(shareData.url)}&media=${encodeURIComponent(shareData.image)}&description=${encodeURIComponent(shareData.description)}`;
+    window.open(url, '_blank', 'width=750,height=600');
+    closeShareMenu();
+};
+
+window.shareToTumblr = function() {
+    const url = `https://www.tumblr.com/widgets/share/tool?canonicalUrl=${encodeURIComponent(shareData.url)}&title=${encodeURIComponent(shareData.title)}&caption=${encodeURIComponent(shareData.description)}`;
+    window.open(url, '_blank', 'width=600,height=600');
+    closeShareMenu();
+};
+
+window.shareToEmail = function() {
+    const subject = shareData.title;
+    const body = `Check out this mind-bending AI thriller: ${shareData.description}\n\n${shareData.url}`;
+    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    closeShareMenu();
+};
+
+window.shareToSMS = function() {
+    // SMS sharing varies by device
+    const text = `${shareData.title} - ${shareData.url}`;
+    const smsUrl = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+        ? `sms:?body=${encodeURIComponent(text)}`
+        : `sms:&body=${encodeURIComponent(text)}`;
+    window.location.href = smsUrl;
+    closeShareMenu();
+};
+
+window.shareCopyLink = function(e) {
+    navigator.clipboard.writeText(shareData.url).then(() => {
+        // Show success feedback
+        const button = e ? e.target.closest('button') : document.querySelector('[onclick*="shareCopyLink"]');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<span>✅</span> Link Copied!';
+        button.style.background = '#4caf50';
+        
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.style.background = '';
+        }, 2000);
+    }).catch(() => {
+        alert('Failed to copy link. Please try again.');
+    });
+};
+
+// Native Share API (for mobile devices)
+window.shareNative = function() {
+    if (navigator.share) {
+        navigator.share({
+            title: shareData.title,
+            text: shareData.text,
+            url: shareData.url
+        }).then(() => {
+            console.log('Shared successfully');
+            closeShareMenu();
+        }).catch((error) => {
+            console.log('Share cancelled or failed:', error);
+        });
+    }
+};
+
+// Check if native share is available and show button
+if (navigator.share) {
+    const nativeShareBtn = document.getElementById('nativeShare');
+    if (nativeShareBtn) {
+        nativeShareBtn.style.display = 'block';
+    }
+}
+
+// Add hover effects to share buttons
+document.querySelectorAll('.share-option').forEach(button => {
+    button.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.05)';
+        this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+    });
+    
+    button.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+        this.style.boxShadow = 'none';
+    });
+});
+
+// Add hover effect to main share button
+const shareButton = document.getElementById('shareButton');
+if (shareButton) {
+    shareButton.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.05)';
+        this.style.boxShadow = '0 6px 20px rgba(74, 30, 140, 0.5)';
+    });
+    
+    shareButton.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+        this.style.boxShadow = '0 4px 12px rgba(74, 30, 140, 0.3)';
+    });
+}
+
+// Add hover effect to close button
+document.querySelector('.close-share').addEventListener('mouseenter', function() {
+    this.style.background = 'rgba(0, 255, 255, 0.1)';
+    this.style.transform = 'rotate(90deg)';
+});
+
+document.querySelector('.close-share').addEventListener('mouseleave', function() {
+    this.style.background = 'none';
+    this.style.transform = 'rotate(0)';
 });
