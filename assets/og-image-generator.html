@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>OG Image Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
+            font-family: 'Inter', -apple-system, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .glitch-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 170, 0.03) 2px,
+                rgba(0, 255, 170, 0.03) 4px
+            );
+        }
+        
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            padding: 60px;
+            z-index: 2;
+        }
+        
+        .book-cover {
+            width: 300px;
+            height: auto;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+            border: 2px solid rgba(0, 255, 170, 0.3);
+        }
+        
+        .content {
+            flex: 1;
+            color: white;
+        }
+        
+        .title {
+            font-size: 72px;
+            font-weight: 900;
+            margin: 0 0 20px 0;
+            letter-spacing: -2px;
+            background: linear-gradient(90deg, #00ffaa, #00ff44, #00ffaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(0, 255, 170, 0.5);
+        }
+        
+        .tagline {
+            font-size: 28px;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0 0 30px 0;
+            line-height: 1.4;
+        }
+        
+        .meta {
+            display: flex;
+            gap: 30px;
+            font-size: 18px;
+            color: rgba(0, 255, 170, 0.8);
+        }
+        
+        .meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .sticky-note {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            width: 200px;
+            height: 80px;
+            background: #ffd700;
+            transform: rotate(-3deg);
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #333;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="glitch-bg"></div>
+    <div class="container">
+        <img src="book-cover-optimized.jpg" class="book-cover" alt="The Last Algorithm">
+        <div class="content">
+            <h1 class="title">THE LAST ALGORITHM</h1>
+            <p class="tagline">The book that shouldn't exist.<br>Written by AI about AI destroying a journalist.</p>
+            <div class="meta">
+                <span>📖 30,000 words</span>
+                <span>⚡ 3.5 days</span>
+                <span>🤖 100% AI-written</span>
+            </div>
+        </div>
+    </div>
+    <div class="sticky-note">2025-05-20: If you're reading this, the memoir survived</div>
+</body>
+</html>

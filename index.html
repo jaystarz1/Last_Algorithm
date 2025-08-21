@@ -911,19 +911,30 @@ Probability of s█rvival: ████████</pre>
         width: 60px;
         height: 60px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #4a1e8c, #00ffff);
-        border: none;
-        color: white;
-        font-size: 24px;
+        background: #0a0a0a;
+        border: 2px solid #00ffff;
+        color: #00ffff;
         cursor: pointer;
-        box-shadow: 0 4px 20px rgba(74, 30, 140, 0.4);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1);
         z-index: 9999;
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
     ">
-        <span style="transition: transform 0.3s ease;">📤</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transition: transform 0.3s ease;">
+            <!-- Main V shape -->
+            <path d="M7 10L12 4L17 10" stroke="#00ffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Vertical line -->
+            <path d="M12 4L12 15" stroke="#00ffff" stroke-width="2" stroke-linecap="round"/>
+            <!-- Left dot -->
+            <circle cx="5" cy="19" r="2" fill="#00ffff"/>
+            <!-- Center dot -->
+            <circle cx="12" cy="19" r="2" fill="#00ffff"/>
+            <!-- Right dot -->
+            <circle cx="19" cy="19" r="2" fill="#00ffff"/>
+        </svg>
     </button>
 
     <script src="/script.js"></script>

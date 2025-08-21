@@ -1,9 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://lastalgorithm.thechatbotgenius.com/</loc>
-    <lastmod>2025-08-18</lastmod>
+    <lastmod>2025-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://lastalgorithm.thechatbotgenius.com/assets/book-cover-optimized.jpg</image:loc>
+      <image:title>The Last Algorithm Book Cover</image:title>
+      <image:caption>The Last Algorithm - AI-written thriller about AI consciousness</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://lastalgorithm.thechatbotgenius.com/#book-description</loc>
+    <lastmod>2025-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://lastalgorithm.thechatbotgenius.com/#why-read</loc>
+    <lastmod>2025-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lastalgorithm.thechatbotgenius.com/#story-behind</loc>
+    <lastmod>2025-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lastalgorithm.thechatbotgenius.com/#real-story</loc>
+    <lastmod>2025-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lastalgorithm.thechatbotgenius.com/#about-author</loc>
+    <lastmod>2025-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lastalgorithm.thechatbotgenius.com/#faq-section</loc>
+    <lastmod>2025-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

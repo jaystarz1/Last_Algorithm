@@ -618,14 +618,41 @@ style.textContent = `
         }
     }
     
-    @keyframes pulse {
+    @keyframes cyber-pulse {
         0%, 100% {
             transform: scale(1);
-            box-shadow: 0 4px 20px rgba(74, 30, 140, 0.4);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1);
         }
         50% {
             transform: scale(1.05);
-            box-shadow: 0 6px 25px rgba(0, 255, 255, 0.5);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.6), inset 0 0 30px rgba(0, 255, 255, 0.2);
+        }
+    }
+    
+    @keyframes glitch-button {
+        0% {
+            transform: scale(1) translate(0, 0);
+            filter: hue-rotate(0deg);
+        }
+        20% {
+            transform: scale(1.1) translate(-2px, 2px);
+            filter: hue-rotate(90deg);
+        }
+        40% {
+            transform: scale(0.95) translate(2px, -2px);
+            filter: hue-rotate(180deg);
+        }
+        60% {
+            transform: scale(1.05) translate(-1px, 1px);
+            filter: hue-rotate(270deg);
+        }
+        80% {
+            transform: scale(0.98) translate(1px, -1px);
+            filter: hue-rotate(360deg);
+        }
+        100% {
+            transform: scale(1) translate(0, 0);
+            filter: hue-rotate(0deg);
         }
     }
     
@@ -903,15 +930,37 @@ document.querySelectorAll('.share-option').forEach(button => {
 if (floatingShareBtn) {
     // Hover effects
     floatingShareBtn.addEventListener('mouseenter', function() {
-        this.style.transform = 'scale(1.1) rotate(10deg)';
-        this.style.boxShadow = '0 6px 30px rgba(74, 30, 140, 0.6)';
-        this.querySelector('span').style.transform = 'rotate(-10deg)';
+        this.style.transform = 'scale(1.1)';
+        this.style.boxShadow = '0 0 40px rgba(0, 255, 255, 0.6), inset 0 0 30px rgba(0, 255, 255, 0.2)';
+        this.style.borderColor = '#ff00ff';
+        this.querySelector('svg').style.transform = 'translateY(-2px)';
+        
+        // Change SVG colors on hover
+        const paths = this.querySelectorAll('path');
+        const circles = this.querySelectorAll('circle');
+        paths.forEach(path => path.setAttribute('stroke', '#ff00ff'));
+        circles.forEach(circle => circle.setAttribute('fill', '#ff00ff'));
     });
     
     floatingShareBtn.addEventListener('mouseleave', function() {
-        this.style.transform = 'scale(1) rotate(0)';
-        this.style.boxShadow = '0 4px 20px rgba(74, 30, 140, 0.4)';
-        this.querySelector('span').style.transform = 'rotate(0)';
+        this.style.transform = 'scale(1)';
+        this.style.boxShadow = '0 0 30px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1)';
+        this.style.borderColor = '#00ffff';
+        this.querySelector('svg').style.transform = 'translateY(0)';
+        
+        // Reset SVG colors
+        const paths = this.querySelectorAll('path');
+        const circles = this.querySelectorAll('circle');
+        paths.forEach(path => path.setAttribute('stroke', '#00ffff'));
+        circles.forEach(circle => circle.setAttribute('fill', '#00ffff'));
+    });
+    
+    // Glitch effect on click
+    floatingShareBtn.addEventListener('click', function() {
+        this.style.animation = 'glitch-button 0.3s ease';
+        setTimeout(() => {
+            this.style.animation = '';
+        }, 300);
     });
     
     // Pulse animation on scroll stop
@@ -920,7 +969,7 @@ if (floatingShareBtn) {
         floatingShareBtn.style.animation = 'none';
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
-            floatingShareBtn.style.animation = 'pulse 2s ease-in-out infinite';
+            floatingShareBtn.style.animation = 'cyber-pulse 3s ease-in-out infinite';
         }, 500);
     });
 }
